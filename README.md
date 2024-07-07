@@ -1,55 +1,31 @@
-# 🍥Fuwari
+# Kasumino かすみの
 
-A static blog template built with [Astro](https://astro.build).
+基于 [Fuwari](https://github.com/saicaca/fuwari) 二次修改的，适用于 [Mix-Space](https://github.com/mx-space) 的博客主题
 
-[**🖥️Live Demo (Vercel)**](https://fuwari.vercel.app)&nbsp;&nbsp;&nbsp;/&nbsp;&nbsp;&nbsp;[**🌏中文 README**](https://github.com/saicaca/fuwari/blob/main/README.zh-CN.md)&nbsp;&nbsp;&nbsp;/&nbsp;&nbsp;&nbsp;[**🌏日本語 README**](https://github.com/saicaca/fuwari/blob/main/README.ja-JP.md)&nbsp;&nbsp;&nbsp;/&nbsp;&nbsp;&nbsp;[**📦Old Hexo Version**](https://github.com/saicaca/hexo-theme-vivia)
 
-![Preview Image](https://raw.githubusercontent.com/saicaca/resource/main/fuwari/home.png)
+## ✨ 功能特性
 
-## ✨ Features
+### Fuwari
+- [x] 基于 Astro 和 Tailwind CSS 开发
+- [x] 流畅的动画和页面过渡
+- [x] 亮色 / 暗色模式
+- [x] 自定义主题色和横幅图片
+- [x] 响应式设计
+- [ ] 评论
+- [x] 搜索
+- [ ] 文内目录
 
-- [x] Built with [Astro](https://astro.build) and [Tailwind CSS](https://tailwindcss.com)
-- [x] Smooth animations and page transitions
-- [x] Light / dark mode
-- [x] Customizable theme colors & banner
-- [x] Responsive design
-- [ ] Comments
-- [x] Search
-- [ ] TOC
+### Kasumino
+- [ ] 适用Mix-Space的评论系统
+- [ ] 适配Mix-Space的目录规则([路由约定](https://mx-space.js.org/development/frontend#%E8%B7%AF%E7%94%B1%E7%BA%A6%E5%AE%9A))
+- [ ] 适配Mix-Space的友链、项目、说说(速记)、手记功能
+- [ ] 修复搜索功能
+- [ ] 页面加载动画
+- [ ] 修改代码高亮
 
-## 🚀 How to Use
 
-1. [Generate a new repository](https://github.com/saicaca/fuwari/generate) from this template or fork this repository.
-2. To edit your blog locally, clone your repository, run `pnpm install` AND `pnpm add sharp` to install dependencies.  
-   - Install [pnpm](https://pnpm.io) `npm install -g pnpm` if you haven't.
-3. Edit the config file `src/config.ts` to customize your blog.
-4. Run `pnpm new-post <filename>` to create a new post and edit it in `src/content/posts/`.
-5. Deploy your blog to Vercel, Netlify, GitHub Pages, etc. following [the guides](https://docs.astro.build/en/guides/deploy/). You need to edit the site configuration in `astro.config.mjs` before deployment. 
+## 鸣谢 & 许可
 
-## ⚙️ Frontmatter of Posts
+本项目基于 [Fuwari](https://github.com/saicaca/fuwari) 根据 MIT license 进行二次开发，感谢原作者的贡献。本主题名称根据 Fuwari(ふわり) 的某种意象——的日语发音「かすみの」而来，意为「雾之」。
 
-```yaml
----
-title: My First Blog Post
-published: 2023-09-09
-description: This is the first post of my new Astro blog.
-image: /images/cover.jpg
-tags: [Foo, Bar]
-category: Front-end
-draft: false
----
-```
-
-## 🧞 Commands
-
-All commands are run from the root of the project, from a terminal:
-
-| Command                             | Action                                           |
-|:------------------------------------|:-------------------------------------------------|
-| `pnpm install` AND `pnpm add sharp` | Installs dependencies                            |
-| `pnpm dev`                          | Starts local dev server at `localhost:4321`      |
-| `pnpm build`                        | Build your production site to `./dist/`          |
-| `pnpm preview`                      | Preview your build locally, before deploying     |
-| `pnpm new-post <filename>`          | Create a new post                                |
-| `pnpm astro ...`                    | Run CLI commands like `astro add`, `astro check` |
-| `pnpm astro --help`                 | Get help using the Astro CLI                     |
+2024 © TNXG 本项目遵循 AGPL 3.0 license 开源，且另附条款：[附加条款](ADDITIONAL_TERMS.md)。
