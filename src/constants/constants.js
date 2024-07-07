@@ -1,0 +1,28 @@
+// 引入之前转换得到的 LIGHT_DARK_MODE 枚举
+const LIGHT_DARK_MODE = {
+  LIGHT_MODE: 'light',
+  DARK_MODE: 'dark',
+  AUTO_MODE: 'auto',
+}
+
+// 定义其他常量
+const UNCATEGORIZED = '__uncategorized__'
+const PAGE_SIZE = 8
+
+// 使用 LIGHT_DARK_MODE 枚举来引用主题模式
+const DEFAULT_THEME = LIGHT_DARK_MODE.AUTO_MODE
+
+// 先将 LIGHT_DARK_MODE 的属性赋值给变量
+const LIGHT_MODE = LIGHT_DARK_MODE.LIGHT_MODE
+const DARK_MODE = LIGHT_DARK_MODE.DARK_MODE
+const AUTO_MODE = LIGHT_DARK_MODE.AUTO_MODE
+
+// 导出模块
+export {
+  UNCATEGORIZED,
+  PAGE_SIZE,
+  DEFAULT_THEME,
+  LIGHT_MODE,
+  DARK_MODE,
+  AUTO_MODE,
+}

@@ -21,14 +21,12 @@ interface Props {
     draft: boolean;
     style: string;
 }
-const { entry, title, url, published, tags, category, image, description, words, style } = Astro.props;
+const { entry, title, url, published, tags, category, image, description, style } = Astro.props;
 const className = Astro.props.class;
 
 const hasCover = image !== undefined && image !== null && image !== '';
 
 const coverWidth = "28%";
-
-const { remarkPluginFrontmatter } = await entry.render();
 
 ---
 <div class:list={["card-base flex flex-col-reverse md:flex-col w-full rounded-[var(--radius-large)] overflow-hidden relative", className]} style={style}>
@@ -55,9 +53,9 @@ const { remarkPluginFrontmatter } = await entry.render();
 
         <!-- word count and read time  -->
         <div class="text-sm text-black/30 dark:text-white/30 flex gap-4 transition">
-            <div>{remarkPluginFrontmatter.words} {" " + i18n(I18nKey.wordsCount)}</div>
+            <div>{entry.wordCount} {" " + i18n(I18nKey.wordsCount)}</div>
             <div>|</div>
-            <div>{remarkPluginFrontmatter.minutes} {" " + i18n(I18nKey.minutesCount)}</div>
+            <div>{entry.readTime} {" " + i18n(I18nKey.minutesCount)}</div>
         </div>
 
     </div>

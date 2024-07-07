@@ -13,38 +13,37 @@ import Markdown from "@components/misc/Markdown.astro";
 import path from "path";
 import {profileConfig} from "../../config";
 import {formatDateToYYYYMMDD} from "../../utils/date-utils";
+import {getSortedPosts} from "@/utils/content-utils";
+import MarkdownRender from '@/components/markdown/Render.vue'
 
 export async function getStaticPaths() {
-    const blogEntries = await getCollection('posts', ({ data }) => {
-        return import.meta.env.PROD ? data.draft !== true : true;
-    });
+    const blogEntries = await getSortedPosts()
     return blogEntries.map(entry => ({
         params: { slug: entry.slug }, props: { entry },
     }));
 }
 
 const { entry } = Astro.props;
-const { Content } = await entry.render();
 
-const { remarkPluginFrontmatter } = await entry.render();
 
 const jsonLd = {
     "@context": "https://schema.org",
     "@type": "BlogPosting",
-    "headline": entry.data.title,
-    "description": entry.data.description || entry.data.title,
-    "keywords": entry.data.tags,
+    "headline": entry.title,
+    "description": entry.summary || entry.title,
+    "keywords": entry.tags,
     "author": {
         "@type": "Person",
         "name": profileConfig.name,
         "url": Astro.site
     },
-    "datePublished": formatDateToYYYYMMDD(entry.data.published),
-    // TODO include cover image here
+    "datePublished": formatDateToYYYYMMDD(entry.created),
 }
 
+const image = entry.images && entry.images.length > 0 && entry.images[0].src ? entry.images[0].src : '';
+
 ---
-<MainGridLayout banner={entry.data.image} title={entry.data.title} description={entry.data.description}>
+<MainGridLayout banner={image} title={entry.title} description={entry.summary}>
     <script slot="head" type="application/ld+json" set:html={JSON.stringify(jsonLd)}></script>
     <div class="flex w-full rounded-[var(--radius-large)] overflow-hidden relative mb-4">
         <div id="post-container" class:list={["card-base z-10 px-6 md:px-9 pt-6 pb-4 relative w-full ",
@@ -56,13 +55,13 @@ const jsonLd = {
                     <div class="transition h-6 w-6 rounded-md bg-black/5 dark:bg-white/10 text-black/50 dark:text-white/50 flex items-center justify-center mr-2">
                         <Icon name="material-symbols:notes-rounded"></Icon>
                     </div>
-                    <div class="text-sm">{remarkPluginFrontmatter.words} {" " + i18n(I18nKey.wordsCount)}</div>
+                    <div class="text-sm">{entry.wordCount} {" " + i18n(I18nKey.wordsCount)}</div>
                 </div>
                 <div class="flex flex-row items-center">
                     <div class="transition h-6 w-6 rounded-md bg-black/5 dark:bg-white/10 text-black/50 dark:text-white/50 flex items-center justify-center mr-2">
                         <Icon name="material-symbols:schedule-outline-rounded"></Icon>
                     </div>
-                    <div class="text-sm">{remarkPluginFrontmatter.minutes} {" " + i18n(I18nKey.minutesCount)}</div>
+                    <div class="text-sm">{entry.readTime} {" " + i18n(I18nKey.minutesCount)}</div>
                 </div>
             </div>
 
@@ -76,7 +75,7 @@ const jsonLd = {
                     md:before:w-1 before:h-5 before:rounded-md before:bg-[var(--primary)]
                     before:absolute before:top-[0.75rem] before:left-[-1.125rem]
                 ">
-                    {entry.data.title}
+                    {entry.title}
                 </div>
             </div>
 
@@ -84,43 +83,43 @@ const jsonLd = {
             <div class="onload-animation">
                 <PostMetadata
                         class="mb-5"
-                        published={entry.data.published}
-                        tags={entry.data.tags}
-                        category={entry.data.category}
+                        published={entry.created}
+                        tags={entry.tags}
+                        category={entry.category.name}
                 ></PostMetadata>
-                {!entry.data.image && <div class="border-[var(--line-divider)] border-dashed border-b-[1px] mb-5"></div>}
+                {!image && <div class="border-[var(--line-divider)] border-dashed border-b-[1px] mb-5"></div>}
             </div>
 
             <!-- always show cover as long as it has one -->
 
-            {entry.data.image &&
-                <ImageWrapper src={entry.data.image} basePath={path.join("content/posts/", getDir(entry.id))} class="mb-8 rounded-xl banner-container onload-animation"/>
+            {image &&
+                <ImageWrapper src={image} basePath={path.join("content/posts/", getDir(entry.id))} class="mb-8 rounded-xl banner-container onload-animation"/>
             }
 
 
             <Markdown class="mb-6 markdown-content onload-animation">
-                <Content />
+                <MarkdownRender content={entry.text}></MarkdownRender>
             </Markdown>
 
-            {licenseConfig.enable && <License title={entry.data.title} slug={entry.slug} pubDate={entry.data.published} class="mb-6 rounded-xl license-container onload-animation"></License>}
+            {licenseConfig.enable && <License title={entry.title} slug={entry.slug} pubDate={entry.created} class="mb-6 rounded-xl license-container onload-animation"></License>}
 
         </div>
     </div>
 
     <div class="flex flex-col md:flex-row justify-between mb-4 gap-4 overflow-hidden w-full">
-        <a href={getPostUrlBySlug(entry.data.nextSlug)} class="w-full font-bold overflow-hidden active:scale-95">
-            {entry.data.nextSlug && <div class="btn-card rounded-2xl w-full h-[3.75rem] max-w-full px-4 flex items-center justify-start gap-4" >
+        <a href={getPostUrlBySlug(entry.nextSlug)} class="w-full font-bold overflow-hidden active:scale-95">
+            {entry.nextSlug && <div class="btn-card rounded-2xl w-full h-[3.75rem] max-w-full px-4 flex items-center justify-start gap-4" >
                 <Icon name="material-symbols:chevron-left-rounded" size={32} class="text-[var(--primary)]" />
                 <div class="overflow-hidden transition overflow-ellipsis whitespace-nowrap max-w-[calc(100%_-_3rem)] text-black/75 dark:text-white/75">
-                    {entry.data.nextTitle}
+                    {entry.nextTitle}
                 </div>
             </div>}
         </a>
 
-        <a href={getPostUrlBySlug(entry.data.prevSlug)} class="w-full font-bold overflow-hidden active:scale-95">
-            {entry.data.prevSlug && <div class="btn-card rounded-2xl w-full h-[3.75rem] max-w-full px-4 flex items-center justify-end gap-4">
+        <a href={getPostUrlBySlug(entry.prevSlug)} class="w-full font-bold overflow-hidden active:scale-95">
+            {entry.prevSlug && <div class="btn-card rounded-2xl w-full h-[3.75rem] max-w-full px-4 flex items-center justify-end gap-4">
                 <div class="overflow-hidden transition overflow-ellipsis whitespace-nowrap max-w-[calc(100%_-_3rem)] text-black/75 dark:text-white/75">
-                    {entry.data.prevTitle}
+                    {entry.prevTitle}
                 </div>
                 <Icon name="material-symbols:chevron-right-rounded" size={32} class="text-[var(--primary)]" />
             </div>}

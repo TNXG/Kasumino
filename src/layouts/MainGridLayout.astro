@@ -7,12 +7,6 @@ import Footer from "@components/Footer.astro";
 import BackToTop from "@components/control/BackToTop.astro";
 import {siteConfig} from "@/config";
 
-interface Props {
-    title: string;
-    banner?: string;
-    description?: string;
-}
-
 const { title, banner, description } = Astro.props
 const isHomePage = pathsEqual(Astro.url.pathname, '/')
 const enableBanner = siteConfig.banner.enable

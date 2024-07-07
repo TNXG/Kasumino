@@ -1,17 +1,12 @@
 import { siteConfig } from '../config'
-import type I18nKey from './i18nKey'
 import { en } from './languages/en'
 import { ja } from './languages/ja'
 import { zh_CN } from './languages/zh_CN'
 import { zh_TW } from './languages/zh_TW'
 
-export type Translation = {
-  [K in I18nKey]: string
-}
-
 const defaultTranslation = en
 
-const map: { [key: string]: Translation } = {
+const map = {
   en: en,
   en_us: en,
   en_gb: en,
@@ -22,11 +17,13 @@ const map: { [key: string]: Translation } = {
   ja_jp: ja,
 }
 
-export function getTranslation(lang: string): Translation {
+function getTranslation(lang) {
   return map[lang.toLowerCase()] || defaultTranslation
 }
 
-export function i18n(key: I18nKey): string {
+function i18n(key) {
   const lang = siteConfig.lang || 'en'
   return getTranslation(lang)[key]
 }
+
+export { getTranslation, i18n }

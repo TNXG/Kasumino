@@ -1,7 +1,6 @@
 import Key from '../i18nKey'
-import type { Translation } from '../translation'
 
-export const zh_CN: Translation = {
+export const zh_CN = {
   [Key.home]: '主页',
   [Key.about]: '关于',
   [Key.archive]: '归档',
@@ -35,4 +34,4 @@ export const zh_CN: Translation = {
   [Key.author]: '作者',
   [Key.publishedAt]: '发布于',
   [Key.license]: '许可协议',
-}
+};

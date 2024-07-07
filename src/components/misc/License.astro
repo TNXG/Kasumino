@@ -5,13 +5,6 @@ import {licenseConfig, profileConfig} from "../../config";
 import {i18n} from "../../i18n/translation";
 import I18nKey from "../../i18n/i18nKey";
 
-interface Props {
-    title: string;
-    slug: string;
-    pubDate: Date;
-    class: string;
-}
-
 const { title, slug, pubDate } = Astro.props;
 const className = Astro.props.class;
 const profileConf = profileConfig;

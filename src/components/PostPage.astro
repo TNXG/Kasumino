@@ -4,22 +4,34 @@ import PostCard from "./PostCard.astro";
 
 const {page} = Astro.props;
 
-let delay = 0
-const interval = 50
+let delay = 0;
+const interval = 50;
+
+const enhancedData = page.data.map(entry => ({
+    ...entry,
+    render: () => {
+        return {
+            Content: () => {},
+            headings: [],
+            remarkPluginFrontmatter: {}
+        };
+    }
+}));
 ---
+
 <div class="transition flex flex-col rounded-[var(--radius-large)] bg-[var(--card-bg)] py-1 md:py-0 md:bg-transparent md:gap-4 mb-4">
-    {page.data.map((entry: { data: { draft: boolean; title: string; tags: string[]; category: string; published: Date; image: string; description: string; }; slug: string; }) => {
+    {enhancedData.map((entry) => {
+        const imageUrl = entry.images && entry.images.length > 0 && entry.images[0].src ? entry.images[0].src : '';
         return (
             <PostCard
                     entry={entry}
-                    title={entry.data.title}
-                    tags={entry.data.tags}
-                    category={entry.data.category}
-                    published={entry.data.published}
+                    title={entry.title}
+                    tags={entry.tags}
+                    category={entry.category.name}
+                    published={entry.created}
                     url={getPostUrlBySlug(entry.slug)}
-                    image={entry.data.image}
-                    description={entry.data.description}
-                    draft={entry.data.draft}
+                    image={imageUrl} // 使用条件表达式确定的图片URL
+                    description={entry.summary}
                     class:list="onload-animation"
                     style={`animation-delay: calc(var(--content-delay) + ${delay++ * interval}ms);`}
             ></PostCard>

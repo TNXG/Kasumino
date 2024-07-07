@@ -5,13 +5,6 @@ import {i18n} from "../i18n/translation";
 import I18nKey from "../i18n/i18nKey";
 import {url} from "../utils/url-utils";
 
-interface Props {
-    class: string;
-    published: Date;
-    tags: string[];
-    category: string;
-    hideTagsForMobile: boolean;
-}
 const {published, tags, category, hideTagsForMobile} = Astro.props;
 const className = Astro.props.class;
 ---

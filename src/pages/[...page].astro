@@ -1,9 +1,7 @@
 ---
 import MainGridLayout from "../layouts/MainGridLayout.astro";
-import PostCard from "../components/PostCard.astro";
 import Pagination from "../components/control/Pagination.astro";
 import {getSortedPosts} from "../utils/content-utils";
-import {getPostUrlBySlug} from "../utils/url-utils";
 import {PAGE_SIZE} from "../constants/constants";
 import PostPage from "../components/PostPage.astro";
 
@@ -14,7 +12,7 @@ export async function getStaticPaths({ paginate }) {
 
 const {page} = Astro.props;
 
-const len = page.data.length;
+const len = page.length;
 
 ---
 
