@@ -82,8 +82,10 @@ const image = entry.images && entry.images.length > 0 && entry.images[0].src ? e
                 <PostMetadata
                         class="mb-5"
                         published={entry.created}
+                        modified={entry.modified}
                         tags={entry.tags}
-                        category={entry.category.name}
+                        categorySlug={entry.category.slug}
+                        categoryName={entry.category.name}
                 ></PostMetadata>
                 {!image && <div class="border-[var(--line-divider)] border-dashed border-b-[1px] mb-5"></div>}
             </div>

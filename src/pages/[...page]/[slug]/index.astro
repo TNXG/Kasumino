@@ -2,10 +2,9 @@
 import MainGridLayout from "@/layouts/MainGridLayout.astro";
 import ImageWrapper from "@/components/misc/ImageWrapper.astro";
 import {Icon} from "astro-icon/components";
-import PostMetadata from "@/components/PostMeta.astro";
+import PageMetadata from "@/components/PageMeta.astro";
 import {i18n} from "@i18n/translation";
 import I18nKey from "@i18n/i18nKey";
-import {getDir, getPostUrlBySlug} from "@utils/url-utils";
 import License from "@components/misc/License.astro";
 import {licenseConfig} from "src/config";
 import Markdown from "@components/misc/Markdown.astro";
@@ -79,10 +78,12 @@ const image = entry.images && entry.images.length > 0 && entry.images[0].src ? e
 
             <!-- metadata -->
             <div class="onload-animation">
-                <PostMetadata
+                <PageMetadata
                         class="mb-5"
                         published={entry.created}
-                ></PostMetadata>
+                        modified={entry.modified}
+                        subtitle={entry.subtitle}
+                ></PageMetadata>
                 {!image && <div class="border-[var(--line-divider)] border-dashed border-b-[1px] mb-5"></div>}
             </div>
 
