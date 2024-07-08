@@ -7,7 +7,7 @@ const LIGHT_DARK_MODE = {
 
 // 定义其他常量
 const UNCATEGORIZED = '__uncategorized__'
-const PAGE_SIZE = 8
+const PAGE_SIZE = 10
 
 // 使用 LIGHT_DARK_MODE 枚举来引用主题模式
 const DEFAULT_THEME = LIGHT_DARK_MODE.AUTO_MODE

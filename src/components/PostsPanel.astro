@@ -4,43 +4,31 @@ import { getPostUrlBySlug } from "../utils/url-utils";
 import { i18n } from "../i18n/translation";
 import I18nKey from "../i18n/i18nKey";
 import { UNCATEGORIZED } from "@constants/constants";
-import {formatDateToYears} from "@/utils/date-utils";
 
-const { keyword, tags, categories } = {};
+const { category } = Astro.params;
 
 let posts = await getSortedPosts();
 
-if (Array.isArray(tags) && tags.length > 0) {
-  posts = posts.filter(post =>
-    Array.isArray(post.tags) && post.tags.some(tag => tags.includes(tag))
-  );
-}
-
-if (Array.isArray(categories) && categories.length > 0) {
-  posts = posts.filter(post =>
-    (post.category && categories.includes(post.category)) ||
-    (!post.category && categories.includes(UNCATEGORIZED))
-  );
+if (category) {
+  posts = posts.filter(post => post.category.slug == category);
 }
 
 const groups = (function () {
   const groupedPosts = posts.reduce((grouped, post) => {
-    const year = formatDateToYears(post.created)
-    if (!grouped[year]) {
-      grouped[year] = [];
+    const categoryName = post.category ? post.category.name : UNCATEGORIZED;
+    if (!grouped[categoryName]) {
+      grouped[categoryName] = [];
     }
-    grouped[year].push(post);
+    grouped[categoryName].push(post);
     return grouped;
   }, {});
 
   // 将对象转换为数组
   const groupedPostsArray = Object.keys(groupedPosts).map(key => ({
-    year: key,
+    categoryName: key,
     posts: groupedPosts[key]
   }));
 
-  // 按最新年份排序
-  groupedPostsArray.sort((a, b) => b.year - a.year);
   return groupedPostsArray;
 })();
 
@@ -63,7 +51,7 @@ function formatTag(tag) {
         groups.map(group => (
             <div>
                 <div class="flex flex-row w-full items-center h-[3.75rem]">
-                    <div class="w-[15%] md:w-[10%] transition text-2xl font-bold text-right text-75">{group.year}</div>
+                    <div class="w-[15%] md:w-[10%] transition text-2xl font-bold text-right text-75">{group.categoryName}</div>
                     <div class="w-[15%] md:w-[10%]">
                         <div class="h-3 w-3 bg-none rounded-full outline outline-[var(--primary)] mx-auto -outline-offset-[2px] z-50 outline-3"></div>
                     </div>

@@ -12,9 +12,8 @@ export function joinUrl(...parts) {
   return joined.replace(/\/+/g, '/')
 }
 
-export function getPostUrlBySlug(slug) {
-  if (!slug) return null
-  return url(`/posts/${slug}/`)
+export function getPostUrlBySlug(category, slug) {
+  return `/posts/${category}/${slug}`;
 }
 
 export function getCategoryUrl(category) {

@@ -17,7 +17,7 @@
 
 ### Kasumino
 - [ ] 适用Mix-Space的评论系统
-- [ ] 适配Mix-Space的目录规则([路由约定](https://mx-space.js.org/development/frontend#%E8%B7%AF%E7%94%B1%E7%BA%A6%E5%AE%9A))
+- [x] 适配Mix-Space的目录规则([路由约定](https://mx-space.js.org/development/frontend#%E8%B7%AF%E7%94%B1%E7%BA%A6%E5%AE%9A))
 - [ ] 适配Mix-Space的友链、项目、说说(速记)、手记功能
 - [ ] 修复搜索功能
 - [ ] 页面加载动画

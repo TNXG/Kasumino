@@ -1,25 +1,24 @@
 ---
-import { getCollection } from 'astro:content';
-import MainGridLayout from "@layouts/MainGridLayout.astro";
-import ImageWrapper from "../../components/misc/ImageWrapper.astro";
+import MainGridLayout from "@/layouts/MainGridLayout.astro";
+import ImageWrapper from "@/components/misc/ImageWrapper.astro";
 import {Icon} from "astro-icon/components";
-import PostMetadata from "../../components/PostMeta.astro";
+import PostMetadata from "@/components/PostMeta.astro";
 import {i18n} from "@i18n/translation";
 import I18nKey from "@i18n/i18nKey";
 import {getDir, getPostUrlBySlug} from "@utils/url-utils";
 import License from "@components/misc/License.astro";
 import {licenseConfig} from "src/config";
 import Markdown from "@components/misc/Markdown.astro";
-import path from "path";
-import {profileConfig} from "../../config";
-import {formatDateToYYYYMMDD} from "../../utils/date-utils";
+import {profileConfig} from "@/config";
+import {formatDateToYYYYMMDD} from "@/utils/date-utils";
 import {getSortedPosts} from "@/utils/content-utils";
 import MarkdownRender from '@/components/markdown/Render.vue'
 
 export async function getStaticPaths() {
-    const blogEntries = await getSortedPosts()
+    const blogEntries = await getSortedPosts();
     return blogEntries.map(entry => ({
-        params: { slug: entry.slug }, props: { entry },
+        params: { slug: entry.slug, category: entry.category.slug }, // 假设每个条目都有一个类别和一个类别的 slug
+        props: { entry },
     }));
 }
 
@@ -93,7 +92,7 @@ const image = entry.images && entry.images.length > 0 && entry.images[0].src ? e
             <!-- always show cover as long as it has one -->
 
             {image &&
-                <ImageWrapper src={image} basePath={path.join("content/posts/", getDir(entry.id))} class="mb-8 rounded-xl banner-container onload-animation"/>
+                <ImageWrapper src={image} class="mb-8 rounded-xl banner-container onload-animation"/>
             }
 
 
@@ -107,7 +106,7 @@ const image = entry.images && entry.images.length > 0 && entry.images[0].src ? e
     </div>
 
     <div class="flex flex-col md:flex-row justify-between mb-4 gap-4 overflow-hidden w-full">
-        <a href={getPostUrlBySlug(entry.nextSlug)} class="w-full font-bold overflow-hidden active:scale-95">
+        <a href={getPostUrlBySlug(entry.category.slug, entry.nextSlug)} class="w-full font-bold overflow-hidden active:scale-95">
             {entry.nextSlug && <div class="btn-card rounded-2xl w-full h-[3.75rem] max-w-full px-4 flex items-center justify-start gap-4" >
                 <Icon name="material-symbols:chevron-left-rounded" size={32} class="text-[var(--primary)]" />
                 <div class="overflow-hidden transition overflow-ellipsis whitespace-nowrap max-w-[calc(100%_-_3rem)] text-black/75 dark:text-white/75">
@@ -116,7 +115,7 @@ const image = entry.images && entry.images.length > 0 && entry.images[0].src ? e
             </div>}
         </a>
 
-        <a href={getPostUrlBySlug(entry.prevSlug)} class="w-full font-bold overflow-hidden active:scale-95">
+        <a href={getPostUrlBySlug(entry.category.name, entry.prevSlug)} class="w-full font-bold overflow-hidden active:scale-95">
             {entry.prevSlug && <div class="btn-card rounded-2xl w-full h-[3.75rem] max-w-full px-4 flex items-center justify-end gap-4">
                 <div class="overflow-hidden transition overflow-ellipsis whitespace-nowrap max-w-[calc(100%_-_3rem)] text-black/75 dark:text-white/75">
                     {entry.prevTitle}

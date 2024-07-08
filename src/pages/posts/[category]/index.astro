@@ -1,0 +1,27 @@
+---
+import {getSortedPosts} from "@/utils/content-utils";
+import MainGridLayout from "@/layouts/MainGridLayout.astro";
+import PostsPanel from "@/components/PostsPanel.astro";
+import {i18n} from "@/i18n/translation";
+import I18nKey from "@/i18n/i18nKey";
+
+
+export async function getStaticPaths() {
+    const Posts = await getSortedPosts();
+    let categories = []
+    Posts.forEach(post => {
+        categories.push(post.category.slug)
+    });
+    const paths = categories.map(category => ({
+        params: { category }
+    }));
+    return paths;
+}
+
+const { category } = Astro.params;
+
+---
+
+<MainGridLayout title={i18n(I18nKey.archive)} description={i18n(I18nKey.archive)}>
+    <PostsPanel category={category}></PostsPanel>
+</MainGridLayout>

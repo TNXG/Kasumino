@@ -34,7 +34,7 @@ const oklchToHex = str => {
 export default defineConfig({
   site: "https://fuwari.vercel.app/",
   base: "/",
-  trailingSlash: "always",
+  trailingSlash: "ignore",
   integrations: [tailwind(), swup({
     theme: false,
     animationClass: 'transition-',
