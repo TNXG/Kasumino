@@ -40,3 +40,24 @@ export async function getCategoryList() {
   return response.data.sort((a, b) => a.name.localeCompare(b.name));
 }
 
+export async function getSortedPages() {
+  const pagesList = await apiClient.page.getList()
+  const pages = await pagesList.data
+  for (let i = 0; i < pages.length; i++) {
+    let cleanedText = pages[i].text.replace(/https?:\/\/\S+/g, '');
+    pages[i].wordCount = cleanedText.length;
+    pages[i].readTime = (pages[i].wordCount / parseInt(siteConfig.readspeed)).toFixed(2)
+  }
+  return pages
+}
+
+export async function getPageBySlug(slug) {
+  const pagesList = await apiClient.page.getBySlug(slug)
+  const pages = await pagesList.data
+  for (let i = 0; i < pages.length; i++) {
+    let cleanedText = pages[i].text.replace(/https?:\/\/\S+/g, '');
+    pages[i].wordCount = cleanedText.length;
+    pages[i].readTime = (pages[i].wordCount / parseInt(siteConfig.readspeed)).toFixed(2)
+  }
+  return pages
+}

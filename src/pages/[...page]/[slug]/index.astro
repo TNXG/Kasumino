@@ -11,13 +11,13 @@ import {licenseConfig} from "src/config";
 import Markdown from "@components/misc/Markdown.astro";
 import {profileConfig} from "@/config";
 import {formatDateToYYYYMMDD} from "@/utils/date-utils";
-import {getSortedPosts} from "@/utils/content-utils";
+import {getSortedPages} from "@/utils/content-utils";
 import MarkdownRender from '@/components/markdown/Render.vue'
 
 export async function getStaticPaths() {
-    const blogEntries = await getSortedPosts();
+    const blogEntries = await getSortedPages();
     return blogEntries.map(entry => ({
-        params: { slug: entry.slug, category: entry.category.slug },
+        params: { slug: entry.slug },
         props: { entry },
     }));
 }
@@ -82,8 +82,6 @@ const image = entry.images && entry.images.length > 0 && entry.images[0].src ? e
                 <PostMetadata
                         class="mb-5"
                         published={entry.created}
-                        tags={entry.tags}
-                        category={entry.category.name}
                 ></PostMetadata>
                 {!image && <div class="border-[var(--line-divider)] border-dashed border-b-[1px] mb-5"></div>}
             </div>
@@ -103,27 +101,6 @@ const image = entry.images && entry.images.length > 0 && entry.images[0].src ? e
 
         </div>
     </div>
-
-    <div class="flex flex-col md:flex-row justify-between mb-4 gap-4 overflow-hidden w-full">
-        <a href={getPostUrlBySlug(entry.category.slug, entry.nextSlug)} class="w-full font-bold overflow-hidden active:scale-95">
-            {entry.nextSlug && <div class="btn-card rounded-2xl w-full h-[3.75rem] max-w-full px-4 flex items-center justify-start gap-4" >
-                <Icon name="material-symbols:chevron-left-rounded" size={32} class="text-[var(--primary)]" />
-                <div class="overflow-hidden transition overflow-ellipsis whitespace-nowrap max-w-[calc(100%_-_3rem)] text-black/75 dark:text-white/75">
-                    {entry.nextTitle}
-                </div>
-            </div>}
-        </a>
-
-        <a href={getPostUrlBySlug(entry.category.name, entry.prevSlug)} class="w-full font-bold overflow-hidden active:scale-95">
-            {entry.prevSlug && <div class="btn-card rounded-2xl w-full h-[3.75rem] max-w-full px-4 flex items-center justify-end gap-4">
-                <div class="overflow-hidden transition overflow-ellipsis whitespace-nowrap max-w-[calc(100%_-_3rem)] text-black/75 dark:text-white/75">
-                    {entry.prevTitle}
-                </div>
-                <Icon name="material-symbols:chevron-right-rounded" size={32} class="text-[var(--primary)]" />
-            </div>}
-        </a>
-    </div>
-
 </MainGridLayout>
 
 <style is:global>

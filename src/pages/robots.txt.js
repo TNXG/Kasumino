@@ -1,16 +1,14 @@
-import 'dotenv/config'
-
-const robotsTxt = `
+export const GET = ({ url }) => {
+  const robotsTxt = `
 User-agent: *
 Allow: /
 
-Sitemap: ${new URL('sitemap-index.xml', process.env.SITE).href}
-`.trim()
+Sitemap: ${new URL('sitemap.xml', url).href}
+`.trim();
 
-export const GET = () => {
   return new Response(robotsTxt, {
     headers: {
       'Content-Type': 'text/plain; charset=utf-8',
     },
-  })
-}
+  });
+};
