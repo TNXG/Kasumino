@@ -1,10 +1,14 @@
 import { fetchConfig } from './middleware/getConfig'
+import { CacheConfig } from './store'
 
 export const mxConfig = {
   endpoint: 'https://mx.tnxg.top/api/v2',
 }
 
-const themeConfig = await fetchConfig()
+
+CacheConfig.set(await fetchConfig())
+
+export const themeConfig = CacheConfig.get()
 
 export const siteConfig = themeConfig?.siteConfig
 
