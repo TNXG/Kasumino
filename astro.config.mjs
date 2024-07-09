@@ -1,24 +1,25 @@
+import react from "@astrojs/react";
+import sitemap from '@astrojs/sitemap';
+import svelte from "@astrojs/svelte";
 import tailwind from "@astrojs/tailwind";
+import vercel from "@astrojs/vercel/serverless";
+import vue from "@astrojs/vue";
+import swup from '@swup/astro';
 import Compress from "astro-compress";
 import icon from "astro-icon";
 import { defineConfig } from "astro/config";
 import Color from "colorjs.io";
 import rehypeAutolinkHeadings from "rehype-autolink-headings";
+import rehypeComponents from "rehype-components"; /* Render the custom directive content */
 import rehypeKatex from "rehype-katex";
 import rehypeSlug from "rehype-slug";
-import remarkMath from "remark-math";
-import { remarkReadingTime } from "./src/plugins/remark-reading-time.mjs";
-import { GithubCardComponent } from "./src/plugins/rehype-component-github-card.mjs";
-import { AdmonitionComponent } from "./src/plugins/rehype-component-admonition.mjs";
 import remarkDirective from "remark-directive"; /* Handle directives */
 import remarkGithubAdmonitionsToDirectives from "remark-github-admonitions-to-directives";
-import rehypeComponents from "rehype-components"; /* Render the custom directive content */
-import svelte from "@astrojs/svelte";
-import swup from '@swup/astro';
-import sitemap from '@astrojs/sitemap';
+import remarkMath from "remark-math";
+import { AdmonitionComponent } from "./src/plugins/rehype-component-admonition.mjs";
+import { GithubCardComponent } from "./src/plugins/rehype-component-github-card.mjs";
 import { parseDirectiveNode } from "./src/plugins/remark-directive-rehype.js";
-import react from "@astrojs/react";
-import vue from "@astrojs/vue";
+import { remarkReadingTime } from "./src/plugins/remark-reading-time.mjs";
 const oklchToHex = str => {
   const DEFAULT_HUE = 250;
   const regex = /-?\d+(\.\d+)?/g;
@@ -32,7 +33,8 @@ const oklchToHex = str => {
 
 // https://astro.build/config
 export default defineConfig({
-  site: "https://fuwari.vercel.app/",
+  output: 'server',
+  site: "https://kasumino.vercel.app/",
   base: "/",
   trailingSlash: "ignore",
   integrations: [tailwind(), swup({
@@ -105,5 +107,6 @@ export default defineConfig({
         }
       }
     }
-  }
+  },
+  adapter: vercel()
 });

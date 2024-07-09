@@ -1,14 +1,14 @@
 ---
-import { getPostUrlBySlug } from "@/utils/url-utils";
-import { i18n } from "@/i18n/translation";
-import I18nKey from "@/i18n/i18nKey";
 import { UNCATEGORIZED } from "@/constants/constants";
-import {formatDateToYears} from "@/utils/date-utils";
-import {getCachePosts} from "@/utils/cache-utils";
+import I18nKey from "@/i18n/i18nKey";
+import { i18n } from "@/i18n/translation";
 import { CachePosts } from "@/store";
+import {getCachePosts} from "@/utils/cache-utils";
+import {formatDateToYears} from "@/utils/date-utils";
+import { getPostUrlBySlug } from "@/utils/url-utils";
 
 
-const { keyword, tags, categories } = {};
+const { keyword, tags = [], categories = [] } = {};
 
 getCachePosts();
 let posts = CachePosts.get();
@@ -26,25 +26,28 @@ if (Array.isArray(categories) && categories.length > 0) {
   );
 }
 
-const groups = (function () {
-  const groupedPosts = posts.reduce((grouped, post) => {
-    const year = formatDateToYears(post.created)
-    if (!grouped[year]) {
-      grouped[year] = [];
-    }
-    grouped[year].push(post);
-    return grouped;
-  }, {});
+const groups = (() => {
+  if (posts && Array.isArray(posts)) {
+    const groupedPosts = posts.reduce((grouped, post) => {
+      const year = formatDateToYears(post.created)
+      if (!grouped[year]) {
+        grouped[year] = [];
+      }
+      grouped[year].push(post);
+      return grouped;
+    }, {});
 
-  // 将对象转换为数组
-  const groupedPostsArray = Object.keys(groupedPosts).map(key => ({
-    year: key,
-    posts: groupedPosts[key]
-  }));
+    // 将对象转换为数组
+    const groupedPostsArray = Object.keys(groupedPosts).map(key => ({
+      year: key,
+      posts: groupedPosts[key]
+    }));
 
-  // 按最新年份排序
-  groupedPostsArray.sort((a, b) => b.year - a.year);
-  return groupedPostsArray;
+    // 按最新年份排序
+    groupedPostsArray.sort((a, b) => b.year - a.year);
+    return groupedPostsArray;
+  }
+  return [];
 })();
 
 function formatDate(date) {

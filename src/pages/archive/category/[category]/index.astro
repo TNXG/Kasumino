@@ -1,17 +1,17 @@
 ---
-import MainGridLayout from "@/layouts/MainGridLayout.astro";
 import PostsPanel from "@/components/PostsPanel.astro";
-import {i18n} from "@/i18n/translation";
 import I18nKey from "@/i18n/i18nKey";
-import {getCachePosts} from "@/utils/cache-utils";
+import {i18n} from "@/i18n/translation";
+import MainGridLayout from "@/layouts/MainGridLayout.astro";
 import { CachePosts } from "@/store";
+import {getCachePosts} from "@/utils/cache-utils";
 
 export async function getStaticPaths() {
     getCachePosts();
-    const Posts = CachePosts.get();
-    let categories = []
+    const Posts = CachePosts.get() || [];
+    const categories = [];
     Posts.forEach(post => {
-        categories.push(post.category.slug)
+        categories.push(post.category.slug);
     });
     const paths = categories.map(category => ({
         params: { category }
@@ -19,7 +19,7 @@ export async function getStaticPaths() {
     return paths;
 }
 
-const { category } = Astro.params;
+const { category } = Astro.params;  
 
 ---
 
