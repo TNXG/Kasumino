@@ -27,7 +27,6 @@ export async function getSortedPosts() {
     sorted[i].wordCount = cleanedText.length;
     sorted[i].readTime = (sorted[i].wordCount / parseInt(siteConfig.readspeed)).toFixed(2)
   }
-  console.log('请求了一次文章列表！')
   return sorted
 }
 

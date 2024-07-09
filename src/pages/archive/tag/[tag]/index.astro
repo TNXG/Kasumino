@@ -1,6 +1,6 @@
 ---
 import MainGridLayout from "@layouts/MainGridLayout.astro";
-import ArchivePanel from "@components/ArchivePanel.astro";
+import TagsPanel from "@components/TagsPanel.astro";
 import {i18n} from "@i18n/translation";
 import I18nKey from "@i18n/i18nKey";
 import {getCachePosts} from "@/utils/cache-utils";
@@ -27,9 +27,8 @@ export async function getStaticPaths() {
 }
 
 const { tag } = Astro.params;
-
 ---
 
 <MainGridLayout title={i18n(I18nKey.archive)} description={i18n(I18nKey.archive)}>
-    <ArchivePanel tags={[tag]}></ArchivePanel>
+    <TagsPanel tag={tag} />
 </MainGridLayout>
