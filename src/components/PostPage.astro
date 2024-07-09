@@ -27,10 +27,12 @@ const enhancedData = page.data.map(entry => ({
                     entry={entry}
                     title={entry.title}
                     tags={entry.tags}
-                    category={entry.category.name}
+                    categoryName={entry.category.name}
+                    categorySlug={entry.category.slug}
                     published={entry.created}
+                    modified={entry.modified}
                     url={getPostUrlBySlug(entry.category.slug, entry.slug)}
-                    image={imageUrl} // 使用条件表达式确定的图片URL
+                    image={imageUrl}
                     description={entry.summary}
                     class:list="onload-animation"
                     style={`animation-delay: calc(var(--content-delay) + ${delay++ * interval}ms);`}

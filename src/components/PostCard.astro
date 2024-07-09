@@ -6,7 +6,7 @@ import {i18n} from "../i18n/translation";
 import I18nKey from "../i18n/i18nKey";
 
 
-const { entry, title, url, published, tags, category, image, description, style } = Astro.props;
+const { entry, title, url, published, modified, tags, categorySlug, categoryName, image, description, style } = Astro.props;
 const className = Astro.props.class;
 
 const hasCover = image !== undefined && image !== null && image !== '';
@@ -29,7 +29,7 @@ const coverWidth = "28%";
         </a>
 
         <!-- metadata -->
-        <PostMetadata published={published} tags={tags} category={category} hideTagsForMobile={true} class="mb-4"></PostMetadata>
+        <PostMetadata published={published} modified={modified} tags={tags} categorySlug={categorySlug} categoryName={categoryName} hideTagsForMobile={true} class="mb-4"></PostMetadata>
 
         <!-- description -->
         <div class="transition text-75 mb-3.5 pr-4">
