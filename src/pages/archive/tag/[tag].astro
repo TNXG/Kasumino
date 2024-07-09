@@ -1,14 +1,15 @@
 ---
-import {getSortedPosts} from "@utils/content-utils";
 import MainGridLayout from "@layouts/MainGridLayout.astro";
 import ArchivePanel from "@components/ArchivePanel.astro";
 import {i18n} from "@i18n/translation";
 import I18nKey from "@i18n/i18nKey";
-
+import {getCachePosts} from "@/utils/cache-utils";
+import { CachePosts } from "@/store";
 
 export async function getStaticPaths() {
-    let posts = await getSortedPosts()
-
+    getCachePosts();
+    let posts = CachePosts.get();
+    
     const allTags = posts.reduce((acc, post) => {
         post.tags.forEach(tag => acc.add(tag));
         return acc;

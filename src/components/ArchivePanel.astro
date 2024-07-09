@@ -1,14 +1,17 @@
 ---
-import { getSortedPosts } from "../utils/content-utils";
-import { getPostUrlBySlug } from "../utils/url-utils";
-import { i18n } from "../i18n/translation";
-import I18nKey from "../i18n/i18nKey";
-import { UNCATEGORIZED } from "@constants/constants";
+import { getPostUrlBySlug } from "@/utils/url-utils";
+import { i18n } from "@/i18n/translation";
+import I18nKey from "@/i18n/i18nKey";
+import { UNCATEGORIZED } from "@/constants/constants";
 import {formatDateToYears} from "@/utils/date-utils";
+import {getCachePosts} from "@/utils/cache-utils";
+import { CachePosts } from "@/store";
+
 
 const { keyword, tags, categories } = {};
 
-let posts = await getSortedPosts();
+getCachePosts();
+let posts = CachePosts.get();
 
 if (Array.isArray(tags) && tags.length > 0) {
   posts = posts.filter(post =>

@@ -1,13 +1,14 @@
 ---
-import {getSortedPosts} from "@/utils/content-utils";
 import MainGridLayout from "@/layouts/MainGridLayout.astro";
 import PostsPanel from "@/components/PostsPanel.astro";
 import {i18n} from "@/i18n/translation";
 import I18nKey from "@/i18n/i18nKey";
-
+import {getCachePosts} from "@/utils/cache-utils";
+import { CachePosts } from "@/store";
 
 export async function getStaticPaths() {
-    const Posts = await getSortedPosts();
+    getCachePosts();
+    const Posts = CachePosts.get();
     let categories = []
     Posts.forEach(post => {
         categories.push(post.category.slug)

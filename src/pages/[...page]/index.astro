@@ -1,12 +1,14 @@
 ---
 import MainGridLayout from "@/layouts/MainGridLayout.astro";
 import Pagination from "@/components/control/Pagination.astro";
-import {getSortedPosts} from "@/utils/content-utils";
 import {PAGE_SIZE} from "@/constants/constants";
 import PostPage from "@/components/PostPage.astro";
+import {getCachePosts} from "@/utils/cache-utils";
+import { CachePosts } from "@/store";
 
 export async function getStaticPaths({ paginate }) {
-    const allBlogPosts = await getSortedPosts();
+    getCachePosts();
+    const allBlogPosts = CachePosts.get();
     return paginate(allBlogPosts, { pageSize: PAGE_SIZE });
 }
 

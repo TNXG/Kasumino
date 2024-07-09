@@ -11,11 +11,13 @@ import {licenseConfig} from "src/config";
 import Markdown from "@components/misc/Markdown.astro";
 import {profileConfig} from "@/config";
 import {formatDateToYYYYMMDD} from "@/utils/date-utils";
-import {getSortedPosts} from "@/utils/content-utils";
 import MarkdownRender from '@/components/markdown/Render.vue'
+import {getCachePosts} from "@/utils/cache-utils";
+import { CachePosts } from "@/store";
 
 export async function getStaticPaths() {
-    const blogEntries = await getSortedPosts();
+    getCachePosts();
+    const blogEntries = CachePosts.get();
     return blogEntries.map(entry => ({
         params: { slug: entry.slug, category: entry.category.slug },
         props: { entry },

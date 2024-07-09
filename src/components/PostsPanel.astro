@@ -4,10 +4,14 @@ import { getPostUrlBySlug } from "../utils/url-utils";
 import { i18n } from "../i18n/translation";
 import I18nKey from "../i18n/i18nKey";
 import { UNCATEGORIZED } from "@constants/constants";
+import {getCachePosts} from "@/utils/cache-utils";
+import { CachePosts } from "@/store";
 
 const { category } = Astro.params;
 
-let posts = await getSortedPosts();
+getCachePosts();
+
+let posts = CachePosts.get();
 
 if (category) {
   posts = posts.filter(post => post.category.slug == category);
