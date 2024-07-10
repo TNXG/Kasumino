@@ -10,18 +10,16 @@ import {licenseConfig} from "src/config";
 import Markdown from "@components/misc/Markdown.astro";
 import {profileConfig} from "@/config";
 import {formatDateToYYYYMMDD} from "@/utils/date-utils";
-import {getSortedPages} from "@/utils/content-utils";
 import MarkdownRender from '@/components/markdown/Render.vue'
+import {getCachePages} from "@/utils/cache-utils";
+import { CachePages } from "@/store";
 
-export async function getStaticPaths() {
-    const blogEntries = await getSortedPages();
-    return blogEntries.map(entry => ({
-        params: { slug: entry.slug },
-        props: { entry },
-    }));
-}
 
-const { entry } = Astro.props;
+getCachePages();
+
+const blogEntries = CachePages.get() || [];
+
+const entry = blogEntries.find((entry) => entry.slug === Astro.params.slug);
 
 const jsonLd = {
     "@context": "https://schema.org",

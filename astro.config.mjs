@@ -55,7 +55,7 @@ export default defineConfig({
     }
   }), Compress({
     Image: false
-  }), svelte(), sitemap(), react(), vue()],
+  }), svelte(), react(), vue()],
   markdown: {
     remarkPlugins: [remarkMath, remarkReadingTime, remarkGithubAdmonitionsToDirectives, remarkDirective, parseDirectiveNode],
     rehypePlugins: [rehypeKatex, rehypeSlug, [rehypeComponents, {

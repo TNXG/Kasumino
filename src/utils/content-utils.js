@@ -1,5 +1,5 @@
-import { apiClient } from '@/middleware/apiClient'
 import { siteConfig } from '@/config'
+import { apiClient } from '@/middleware/apiClient'
 
 export async function getSortedPosts() {
   const postsList = await apiClient.post.getList()
@@ -23,9 +23,9 @@ export async function getSortedPosts() {
 
   // 计算每一个文章的字数
   for (let i = 0; i < sorted.length; i++) {
-    let cleanedText = sorted[i].text.replace(/https?:\/\/\S+/g, '');
+    const cleanedText = sorted[i].text.replace(/https?:\/\/\S+/g, '');
     sorted[i].wordCount = cleanedText.length;
-    sorted[i].readTime = (sorted[i].wordCount / parseInt(siteConfig.readspeed)).toFixed(2)
+    sorted[i].readTime = (sorted[i].wordCount / Number.parseInt(siteConfig.readspeed)).toFixed(2)
   }
   return sorted
 }
@@ -44,9 +44,9 @@ export async function getSortedPages() {
   const pagesList = await apiClient.page.getList()
   const pages = await pagesList.data
   for (let i = 0; i < pages.length; i++) {
-    let cleanedText = pages[i].text.replace(/https?:\/\/\S+/g, '');
+    const cleanedText = pages[i].text.replace(/https?:\/\/\S+/g, '');
     pages[i].wordCount = cleanedText.length;
-    pages[i].readTime = (pages[i].wordCount / parseInt(siteConfig.readspeed)).toFixed(2)
+    pages[i].readTime = (pages[i].wordCount / Number.parseInt(siteConfig.readspeed)).toFixed(2)
   }
   return pages
 }
@@ -55,9 +55,9 @@ export async function getPageBySlug(slug) {
   const pagesList = await apiClient.page.getBySlug(slug)
   const pages = await pagesList.data
   for (let i = 0; i < pages.length; i++) {
-    let cleanedText = pages[i].text.replace(/https?:\/\/\S+/g, '');
+    const cleanedText = pages[i].text.replace(/https?:\/\/\S+/g, '');
     pages[i].wordCount = cleanedText.length;
-    pages[i].readTime = (pages[i].wordCount / parseInt(siteConfig.readspeed)).toFixed(2)
+    pages[i].readTime = (pages[i].wordCount / Number.parseInt(siteConfig.readspeed)).toFixed(2)
   }
   return pages
 }

@@ -15,16 +15,11 @@ import MarkdownRender from '@/components/markdown/Render.vue'
 import {getCachePosts} from "@/utils/cache-utils";
 import { CachePosts } from "@/store";
 
-export async function getStaticPaths() {
-    getCachePosts();
-    const blogEntries = CachePosts.get();
-    return blogEntries.map(entry => ({
-        params: { slug: entry.slug, category: entry.category.slug },
-        props: { entry },
-    }));
-}
+getCachePosts();
 
-const { entry } = Astro.props;
+const blogEntries = CachePosts.get() || [];
+
+const entry = blogEntries.find((entry) => entry.slug === Astro.params.slug);
 
 const jsonLd = {
     "@context": "https://schema.org",

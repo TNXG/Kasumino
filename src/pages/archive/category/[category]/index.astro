@@ -6,20 +6,10 @@ import MainGridLayout from "@/layouts/MainGridLayout.astro";
 import { CachePosts } from "@/store";
 import {getCachePosts} from "@/utils/cache-utils";
 
-export async function getStaticPaths() {
-    getCachePosts();
-    const Posts = CachePosts.get() || [];
-    const categories = [];
-    Posts.forEach(post => {
-        categories.push(post.category.slug);
-    });
-    const paths = categories.map(category => ({
-        params: { category }
-    }));
-    return paths;
-}
+getCachePosts();
+const blogEntries = CachePosts.get() || [];
 
-const { category } = Astro.params;  
+const category = blogEntries.map((entry) => entry.category).filter((value, index, self) => self.indexOf(value) === index);
 
 ---
 

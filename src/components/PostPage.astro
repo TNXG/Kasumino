@@ -7,7 +7,7 @@ const {page} = Astro.props;
 let delay = 0;
 const interval = 50;
 
-const enhancedData = page.data.map(entry => ({
+const enhancedData = page.map(entry => ({
     ...entry,
     render: () => {
         return {
@@ -20,6 +20,7 @@ const enhancedData = page.data.map(entry => ({
 ---
 
 <div class="transition flex flex-col rounded-[var(--radius-large)] bg-[var(--card-bg)] py-1 md:py-0 md:bg-transparent md:gap-4 mb-4">
+  
     {enhancedData.map((entry) => {
         const imageUrl = entry.images && entry.images.length > 0 && entry.images[0].src ? entry.images[0].src : '';
         return (
